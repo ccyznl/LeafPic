@@ -19,6 +19,10 @@ response=$(curl -sS "https://api.crowdin.com/api/project/leafpic/export?key=$api
 echo $response
 
 if [ -n "$response"]; then
-
+    tempfile=$(mktemp)
+    wget -qO "$tempfile" "https://api.crowdin.com/api/project/leafpic/download/all.zip?key=$apikey"
+    unzip -oqd "$basedir/$location" "temofile"
+    rm "$tempfile"
+    git --no-pager diff --stat --no-ext-diff "$basedir/$location"
 fi
 
